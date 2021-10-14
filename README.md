@@ -1,1 +1,1 @@
-# Flutter clean architecture firebase phone auth
+# Flutter Clean Architecture - Firebase
