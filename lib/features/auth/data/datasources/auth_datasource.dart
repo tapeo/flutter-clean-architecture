@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthDataSource {
-  Future<void> authPhone(
+  void authPhone(
     String phone, {
     required Function(PhoneAuthCredential) success,
     required Function(FirebaseAuthException) error,
@@ -9,6 +9,10 @@ abstract class AuthDataSource {
   });
 
   Future<User> activate({required PhoneAuthCredential phoneAuthCredential});
+
+  void listen({required Function(User?) authStateChanges});
+
+  void logout();
 }
 
 class AuthDataSourceImpl implements AuthDataSource {
@@ -17,7 +21,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   const AuthDataSourceImpl({required this.authInstance});
 
   @override
-  Future<void> authPhone(
+  void authPhone(
     String phone, {
     required Function(PhoneAuthCredential) success,
     required Function(FirebaseAuthException) error,
@@ -40,5 +44,15 @@ class AuthDataSourceImpl implements AuthDataSource {
         await authInstance.signInWithCredential(phoneAuthCredential);
 
     return userCredential.user!;
+  }
+
+  @override
+  void listen({required Function(User?) authStateChanges}) {
+    authInstance.authStateChanges().listen(authStateChanges);
+  }
+
+  @override
+  void logout() {
+    authInstance.signOut();
   }
 }

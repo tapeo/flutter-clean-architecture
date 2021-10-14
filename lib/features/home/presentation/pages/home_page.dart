@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clean_architecture_firebase_phone_auth/core/components/space.dart';
 import 'package:flutter_clean_architecture_firebase_phone_auth/core/components/squared_button.dart';
-import 'package:flutter_clean_architecture_firebase_phone_auth/core/utils/page_route.dart';
-import 'package:flutter_clean_architecture_firebase_phone_auth/features/auth/presentation/pages/phone_auth_page.dart';
+import 'package:flutter_clean_architecture_firebase_phone_auth/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_clean_architecture_firebase_phone_auth/features/home/presentation/providers/home_provider.dart';
+import 'package:flutter_clean_architecture_firebase_phone_auth/locator.dart';
+import 'package:provider/provider.dart';
 
-class AuthPage extends StatelessWidget {
-  const AuthPage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _AuthPage();
+    return ChangeNotifierProvider<HomeProvider>(
+      create: (context) => getIt<HomeProvider>(),
+      child: const _HomePage(),
+    );
   }
 }
 
-class _AuthPage extends StatelessWidget {
-  const _AuthPage({Key? key}) : super(key: key);
+class _HomePage extends StatelessWidget {
+  const _HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +39,13 @@ class _AuthPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        Center(child: Text("Home")),
+                        Space(),
                         SquaredButton(
-                          text: "Proceed",
-                          click: () {
-                            Navigator.push(
-                                context,
-                                PlatformPageRoute(
-                                  builder: (context) => PhoneAuthPage(),
-                                ));
-                          },
-                        ),
+                            text: "Logout",
+                            click: () {
+                              context.read<AuthProvider>().logout();
+                            }),
                         Space(24),
                       ],
                     ),

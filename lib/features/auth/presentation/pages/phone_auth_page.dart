@@ -4,7 +4,6 @@ import 'package:flutter_clean_architecture_firebase_phone_auth/core/components/i
 import 'package:flutter_clean_architecture_firebase_phone_auth/core/components/space.dart';
 import 'package:flutter_clean_architecture_firebase_phone_auth/core/components/squared_button.dart';
 import 'package:flutter_clean_architecture_firebase_phone_auth/features/auth/presentation/providers/auth_provider.dart';
-import 'package:flutter_clean_architecture_firebase_phone_auth/locator.dart';
 import 'package:provider/provider.dart';
 
 class PhoneAuthPage extends StatelessWidget {
@@ -12,10 +11,7 @@ class PhoneAuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AuthProvider>(
-      create: (context) => locator<AuthProvider>(),
-      child: _PhoneAuthPage(),
-    );
+    return _PhoneAuthPage();
   }
 }
 
